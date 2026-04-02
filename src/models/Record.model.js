@@ -41,7 +41,7 @@ const recordSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Indexes — heavy load ke liye fast queries
+
 recordSchema.index({ type: 1 });
 recordSchema.index({ category: 1 });
 recordSchema.index({ date: -1 });

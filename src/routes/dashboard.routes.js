@@ -11,7 +11,7 @@ import authorize from '../middleware/role.js';
 
 const router = Router();
 
-// Viewer bhi dashboard dekh sakta hai
+
 router.use(authenticate, authorize('viewer', 'analyst', 'admin'));
 
 router.get('/summary', getSummary);

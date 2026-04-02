@@ -1,7 +1,7 @@
 import Record from '../models/Record.model.js';
 import { z } from 'zod';
 
-// ─── VALIDATION SCHEMA ───────────────────────────────────
+
 const recordSchema = z.object({
   amount: z.number().positive('Amount must be positive'),
   type: z.enum(['income', 'expense']),
@@ -12,7 +12,7 @@ const recordSchema = z.object({
 
 const updateRecordSchema = recordSchema.partial();
 
-// ─── CREATE RECORD — Admin only ──────────────────────────
+
 export const createRecord = async (req, res) => {
   try {
     const result = recordSchema.safeParse(req.body);
@@ -42,7 +42,7 @@ export const createRecord = async (req, res) => {
   }
 };
 
-// ─── GET ALL RECORDS — All roles ─────────────────────────
+
 export const getAllRecords = async (req, res) => {
   try {
     const {
@@ -54,7 +54,7 @@ export const getAllRecords = async (req, res) => {
       limit = 10,
     } = req.query;
 
-    // ✅ IMPORTANT: soft delete filter
+  
     const filter = { isDeleted: false };
 
     if (type) filter.type = type;
@@ -63,7 +63,7 @@ export const getAllRecords = async (req, res) => {
       filter.category = category.toLowerCase();
     }
 
-    // Date range filter
+  
     if (startDate || endDate) {
       filter.date = {};
       if (startDate) filter.date.$gte = new Date(startDate);
@@ -103,12 +103,12 @@ export const getAllRecords = async (req, res) => {
   }
 };
 
-// ─── GET SINGLE RECORD — All roles ───────────────────────
+
 export const getRecordById = async (req, res) => {
   try {
     const record = await Record.findOne({
       _id: req.params.id,
-      isDeleted: false, // ✅ yaha bhi filter
+      isDeleted: false, 
     })
       .populate('createdBy', 'name email')
       .lean();
@@ -132,7 +132,7 @@ export const getRecordById = async (req, res) => {
   }
 };
 
-// ─── UPDATE RECORD — Admin only ──────────────────────────
+
 export const updateRecord = async (req, res) => {
   try {
     const result = updateRecordSchema.safeParse(req.body);
@@ -147,7 +147,7 @@ export const updateRecord = async (req, res) => {
     const record = await Record.findOneAndUpdate(
       {
         _id: req.params.id,
-        isDeleted: false, // ✅ deleted record update nahi hoga
+        isDeleted: false, 
       },
       {
         ...result.data,
@@ -179,13 +179,13 @@ export const updateRecord = async (req, res) => {
   }
 };
 
-// ─── DELETE RECORD — Admin only (soft delete) ────────────
+
 export const deleteRecord = async (req, res) => {
   try {
     const record = await Record.findOneAndUpdate(
       {
         _id: req.params.id,
-        isDeleted: false, // ✅ already deleted ko dubara delete nahi karega
+        isDeleted: false, 
       },
       {
         isDeleted: true,

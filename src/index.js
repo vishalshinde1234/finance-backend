@@ -15,25 +15,25 @@ dotenv.config();
 
 const app = express();
 
-// DB connect
+
 connectDB();
 
-// Security
+
 app.use(helmet());
 
-// CORS
+
 app.use(cors());
 
-// Compress responses — heavy load pe helpful
+
 app.use(compression());
 
-// Logging
+
 app.use(morgan('dev'));
 
-// Body parser
+
 app.use(express.json({ limit: '10kb' }));
 
-// Rate limiting — ek IP se max 100 req per 15 min
+
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -44,7 +44,7 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// Health check
+
 app.get('/', (req, res) => {
   res.json({
     success: true,
@@ -53,13 +53,13 @@ app.get('/', (req, res) => {
   });
 });
 
-// Routes
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/records', recordRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 
-// 404 handler
+
 app.use((req, res) => {
   res.status(404).json({
     success: false,
@@ -67,7 +67,7 @@ app.use((req, res) => {
   });
 });
 
-// Global error handler
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(err.status || 500).json({

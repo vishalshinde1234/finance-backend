@@ -21,7 +21,7 @@ const generateToken = (id) => {
   });
 };
 
-// ─── REGISTER ───────────────────────────────────────────
+
 export const register = async (req, res) => {
   try {
     const result = registerSchema.safeParse(req.body);
@@ -42,7 +42,7 @@ export const register = async (req, res) => {
       });
     }
 
-    // Controller mein hash karo
+    
     const hashedPassword = await bcryptjs.hash(password, 10);
     const user = await User.create({
       name,
@@ -74,7 +74,7 @@ export const register = async (req, res) => {
   }
 };
 
-// ─── LOGIN ──────────────────────────────────────────────
+
 export const login = async (req, res) => {
   try {
     const result = loginSchema.safeParse(req.body);
@@ -102,7 +102,7 @@ export const login = async (req, res) => {
       });
     }
 
-    // Direct bcryptjs compare
+   
     const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({
@@ -134,7 +134,7 @@ export const login = async (req, res) => {
   }
 };
 
-// ─── GET ME ─────────────────────────────────────────────
+
 export const getMe = async (req, res) => {
   return res.json({
     success: true,

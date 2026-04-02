@@ -1,9 +1,9 @@
 import Record from '../models/Record.model.js';
 
-// ─── MAIN SUMMARY ────────────────────────────────────────
+
 export const getSummary = async (req, res) => {
   try {
-    // Ek hi query mein total income aur expense nikalo — fast
+   
     const summary = await Record.aggregate([
       {
         $match: { isDeleted: false }
@@ -17,7 +17,7 @@ export const getSummary = async (req, res) => {
       }
     ]);
 
-    // Result format karo
+  
     let totalIncome = 0;
     let totalExpense = 0;
     let incomeCount = 0;
@@ -49,10 +49,10 @@ export const getSummary = async (req, res) => {
   }
 };
 
-// ─── CATEGORY WISE TOTALS ─────────────────────────────────
+
 export const getCategoryTotals = async (req, res) => {
   try {
-    const { type } = req.query; // income ya expense filter
+    const { type } = req.query; 
 
     const match = { isDeleted: false };
     if (type) match.type = type;
@@ -67,7 +67,7 @@ export const getCategoryTotals = async (req, res) => {
         }
       },
       {
-        $sort: { total: -1 } // highest first
+        $sort: { total: -1 } 
       },
       {
         $project: {
@@ -89,7 +89,7 @@ export const getCategoryTotals = async (req, res) => {
   }
 };
 
-// ─── MONTHLY TRENDS ───────────────────────────────────────
+
 export const getMonthlyTrends = async (req, res) => {
   try {
     const { year = new Date().getFullYear() } = req.query;
@@ -128,7 +128,7 @@ export const getMonthlyTrends = async (req, res) => {
       }
     ]);
 
-    // 12 months ka proper format banao
+    
     const months = Array.from({ length: 12 }, (_, i) => ({
       month: i + 1,
       monthName: new Date(year, i).toLocaleString('default', { month: 'long' }),
@@ -145,7 +145,7 @@ export const getMonthlyTrends = async (req, res) => {
       }
     });
 
-    // Net balance bhi add karo har month mein
+   
     months.forEach((m) => {
       m.netBalance = m.income - m.expense;
     });
@@ -162,7 +162,7 @@ export const getMonthlyTrends = async (req, res) => {
   }
 };
 
-// ─── RECENT ACTIVITY ──────────────────────────────────────
+
 export const getRecentActivity = async (req, res) => {
   try {
     const { limit = 10 } = req.query;
@@ -182,10 +182,10 @@ export const getRecentActivity = async (req, res) => {
   }
 };
 
-// ─── WEEKLY TRENDS ────────────────────────────────────────
+
 export const getWeeklyTrends = async (req, res) => {
   try {
-    // Last 7 days ka data
+   
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 

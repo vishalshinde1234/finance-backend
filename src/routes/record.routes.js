@@ -11,13 +11,13 @@ import authorize from '../middleware/role.js';
 
 const router = Router();
 
-// Sab routes pe authenticate zaroori
+
 router.use(authenticate);
 
-router.get('/', getAllRecords);                              // viewer, analyst, admin
-router.get('/:id', getRecordById);                          // viewer, analyst, admin
-router.post('/', authorize('admin'), createRecord);         // sirf admin
-router.patch('/:id', authorize('admin'), updateRecord);     // sirf admin
-router.delete('/:id', authorize('admin'), deleteRecord);    // sirf admin
+router.get('/', getAllRecords);                              
+router.get('/:id', getRecordById);                          
+router.post('/', authorize('admin'), createRecord);         
+router.patch('/:id', authorize('admin'), updateRecord);     
+router.delete('/:id', authorize('admin'), deleteRecord);    
 
 export default router;

@@ -20,9 +20,9 @@ JWT_SECRET=your_secret
 JWT_EXPIRES_IN=7d
 
 ## Roles
-- Viewer — only view records
-- Analyst — view records + dashboard
-- Admin — full access
+- Viewer — can only view records and dashboard
+- Analyst — can view records and access dashboard
+- Admin — full access to everything
 
 ## APIs
 
@@ -32,18 +32,18 @@ Users (Admin only) — GET /api/users  POST /api/users  PATCH /api/users/:id/rol
 
 Records — GET /api/records  POST /api/records  PATCH /api/records/:id  DELETE /api/records/:id
 
-Dashboard (Analyst + Admin) — GET /api/dashboard/summary  GET /api/dashboard/categories  GET /api/dashboard/trends/monthly  GET /api/dashboard/recent
+Dashboard (All roles) — GET /api/dashboard/summary  GET /api/dashboard/categories  GET /api/dashboard/trends/monthly  GET /api/dashboard/recent
 
-Records filter — ?type=income  ?category=salary  ?startDate=2024-01-01  ?page=1&limit=10
+Filter Records — ?type=income  ?category=salary  ?startDate=2024-01-01  ?page=1&limit=10
 
 ## Assumptions
-- Admin pehle register karta hai
-- Soft delete use kiya — data permanently delete nahi hota
-- Viewer dashboard access nahi kar sakta
+- Admin registers first and manages the system
+- Soft delete used — data is never permanently deleted
+- Viewer can access dashboard in read-only mode
 
 ## What I Focused On
-- Clean structure — models, middleware, controllers, routes alag alag
-- Role check har protected route pe
-- Promise.all se parallel DB queries
-- lean() se fast reads
-- Indexes on type, category, date
+- Clean folder structure — models, middleware, controllers, routes separated
+- Role based access control on every protected route
+- Parallel DB queries using Promise.all for better performance
+- lean() for faster MongoDB reads
+- Indexes on type, category, date for fast filtering

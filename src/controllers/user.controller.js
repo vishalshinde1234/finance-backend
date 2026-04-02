@@ -16,7 +16,7 @@ const updateStatusSchema = z.object({
   status: z.enum(['active', 'inactive']),
 });
 
-// ─── GET ALL USERS ───────────────────────────────────────
+
 export const getAllUsers = async (req, res) => {
   try {
     const { role, status, page = 1, limit = 10 } = req.query;
@@ -54,7 +54,7 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-// ─── GET SINGLE USER ─────────────────────────────────────
+
 export const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
@@ -74,7 +74,7 @@ export const getUserById = async (req, res) => {
   }
 };
 
-// ─── CREATE USER ─────────────────────────────────────────
+
 export const createUser = async (req, res) => {
   try {
     const result = createUserSchema.safeParse(req.body);
@@ -113,7 +113,7 @@ export const createUser = async (req, res) => {
   }
 };
 
-// ─── UPDATE ROLE ──────────────────────────────────────────
+
 export const updateUserRole = async (req, res) => {
   try {
     const result = updateRoleSchema.safeParse(req.body);
@@ -154,7 +154,6 @@ export const updateUserRole = async (req, res) => {
   }
 };
 
-// ─── UPDATE STATUS ────────────────────────────────────────
 export const updateUserStatus = async (req, res) => {
   try {
     const result = updateStatusSchema.safeParse(req.body);
